@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.html",
   "scripts": {
-    "test-logic": "node logic.test.js | tap-spec"
-    "test-server": node server.test.js | tap-spec"
+    "test-logic": "node logic.test.js | tap-spec",
+    "test-server": "node server.test.js | tap-spec"
   },
   "repository": {
     "type": "git",
