@@ -1,10 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const request = require('request');
+const config = {
+  GUARDIAN_KEY: "7de6cbf7-40ff-4edd-9fe6-4d9b1b20a26b",
+  NYT_KEY: "401b373f944f41afa50d7c8294713694",
+};
 
 function pubicPath(fileName) {
   return path.join(__dirname, '..', 'public', fileName);
 }
+
 function returnError(error, res) {
   res.writeHead(500, { 'Content-Type': 'text/html' });
   res.end('You\'ve fucked up');
@@ -45,15 +50,19 @@ const handlers = {
   },
   queryHandler: (req, res) => {
     const query = req.url.split('?q=')[1].split('&')[0];
-    const guardianApiKey = '7de6cbf7-40ff-4edd-9fe6-4d9b1b20a26b';
-    const url = `https://content.guardianapis.com/search?q=${query}&show-fields=bodyText&api-key=${guardianApiKey}`;
-    request(url, (error, response, body) => {
-      console.log('Error: ', error);
-      console.log('statusCode: ', response && response.statusCode);
-      const parsedData = JSON.parse(body);
-      console.log("Body: ", parsedData.response.results[0].fields.bodyText);
-    });
+    const guardianUrl = `https://content.guardianapis.com/search?q=${query}&show-fields=bodyText&api-key=${config.GUARDIAN_KEY}`;
+    // make nyt url
+    apiRequest(req, guardianUrl);
   },
 };
+
+function apiRequest(req, url) {
+  request(url, (error, response, body) => {
+    console.log('Error: ', error);
+    console.log('statusCode: ', response && response.statusCode);
+    const parsedData = JSON.parse(body);
+    console.log("Body: ", parsedData.response.results[0].fields.bodyText);
+  });
+}
 
 module.exports = handlers;
