@@ -3,12 +3,24 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Guardian vs New York Times</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script> -->
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <script src="scrpit.js"></script>
 </head>
 <body>
-    <h1>Hello WORLD</h1>
+    <header>
+        <h1>Compare those news!</h1>
+    </header>
+    <section id="wrapper">
+    <form id="search">
+        <label for="input" class="visually-hidden">Enter keywords here</label>
+        <input type="text" name="description" value="" placeholder="Enter keywords here" id="keyword-input" required>
+        <label for="submit" class="visually-hidden">Get news</label>
+        <input type="submit" name="submit" value="Get news" id="submit">
+      </form>
+      <div id="news-container"></div>
+      </div>
+    </section>
 </body>
 </html>
