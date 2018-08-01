@@ -1,0 +1,26 @@
+{
+  "name": "hmen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test-logic": "node logic.test.js | tap-spec"
+    "test-server": node server.test.js | tap-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fac-14/HMEN.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fac-14/HMEN/issues"
+  },
+  "homepage": "https://github.com/fac-14/HMEN#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.3",
+    "nyc": "^12.0.2",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.9.1"
+  }
+}
