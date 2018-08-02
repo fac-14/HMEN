@@ -4,9 +4,8 @@
 You been invited to try out **The New York Guardian**, a trusted news outlet specialising in the early century. 
 (If you're lucky it might even load! :kissing_heart:)
 
-## Why?, you ask. Why not!?
-[Just try it out, ok](https://floating-mountain-51197.herokuapp.com/). 
-
+## News from the early century? 
+YAH! Why not!? [Just have a taste, ok](https://floating-mountain-51197.herokuapp.com/). 
 
 ### :heart: from the dream team: 
 
