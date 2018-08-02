@@ -8,4 +8,28 @@
 
   body {
     background-color: hotpink;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  #news-container {
+    display: grid;
+    width: 100vw;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4);
+    border-style: solid;
+  }
+
+  .headers {
+    text-align: center;
+  }
+  .grid-element {
+    border-style: solid;
+  }
+
+  #content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+
   }
