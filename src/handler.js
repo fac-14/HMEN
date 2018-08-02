@@ -99,20 +99,12 @@ const handlers = {
 
     makeRequests(req, res, guardianUrl, nytUrl, giphyUrl, () => {
       const response = {
-<<<<<<< HEAD
-        headline,
-        summary,
-        other_headlines: otherHeadlines,
-        article,
-        pub_date: pubDate,
-=======
         'headline': headline,
         'summary': summary,
         'other_headlines': otherHeadlines,
         'article': article,
         'pub_date': pubDate,
         'gif': gif
->>>>>>> master
       };
       res.writeHead(200, { 'Content-Type': 'text/html' });
       console.log('response object: ', response);
