@@ -8,8 +8,11 @@ const config = {
   NYT_KEY: process.env.NYT_KEY,
 };
 
-let guardianData;
-let nytData;
+let headline;
+let summary;
+let otherHeadlines = [];
+let article;
+let gif;
 
 function pubicPath(fileName) {
   return path.join(__dirname, '..', 'public', fileName);
@@ -26,9 +29,12 @@ function apiRequest(req, res, url) {
     const parsedData = JSON.parse(body);
     // console.log('parsed data: ', parsedData);
     if (url.indexOf('guardian') !== -1) {
-      guardianData = parsedData.response.results[0].fields.bodyText;
+      article = parsedData.response.results[0].fields.bodyText;
     } else {
-      nytData = parsedData.response.docs[0].multimedia[0].url;
+      const content = parsedData.response.docs;
+      headline = content[0].headline.main;
+      summary = content[0].abstract;
+      otherHeadlines = [content[1].headline.main, content[2].headline.main, content[3].headline.main, content[4].headline.main];
     }
   });
 }
