@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 var apiRequest = function(query, callback) {
-  var url = '//floating-mountain-51197.herokuapp/?q=' + query;
+  var url = '//floating-mountain-51197.herokuapp.com/?q=' + query;
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
