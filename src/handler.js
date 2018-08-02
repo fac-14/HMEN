@@ -16,12 +16,14 @@ function returnError(error, res) {
   res.end('You\'ve fucked up');
 }
 
-function apiRequest(req, url) {
+function apiRequest(req, res, url) {
   request(url, (error, response, body) => {
     console.log('Error: ', error);
     console.log('statusCode: ', response && response.statusCode);
     const parsedData = JSON.parse(body);
     console.log('Body: ', parsedData.response.results[0].fields.bodyText);
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(JSON.stringify(parsedData.response.results[0].fields.bodyText));
   });
 }
 
@@ -62,8 +64,7 @@ const handlers = {
     const query = req.url.split('?q=')[1].split('&')[0];
     const guardianUrl = `https://content.guardianapis.com/search?q=${query}&show-fields=bodyText&api-key=${config.GUARDIAN_KEY}`;
     // make nyt url
-    apiRequest(req, guardianUrl);
-    console.log(res);
+    apiRequest(req, res, guardianUrl);
   },
 };
 

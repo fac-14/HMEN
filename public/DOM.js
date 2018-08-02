@@ -1,30 +1,21 @@
-const searchBox = document.getElementById('keyword-input');
-console.log(searchBox);
-const submitBtn = document.getElementById('submit');
+/* eslint-disable */
 
-const apiRequest = (query, callback) => {
-  const url = `//localhost:4000/?q=${query}`;
-  const xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = () => { // eslint-disable-line
-    if (xhr.readyState == 4) { // eslint-disable-line
-      if (xhr.status == 200) { // eslint-disable-line
-        const parsedObj = JSON.parse(xhr.responseText);
-        return callback(parsedObj);
-      }
-      console.log('Error');
-    }
-  };
-  xhr.open('GET', url, true);
-  xhr.send();
-};
+var searchBox = document.getElementById('keyword-input');
+var submitBtn = document.getElementById('submit');
+var article = document.getElementById('news-container');
 
-searchBox.addEventListener('keypress', (event) => {
-  const key = event.which || event.keyCode;
+searchBox.addEventListener('keypress', function(event) {
+  var key = event.which || event.keyCode;
   if (key === 13) {
-    apiRequest(searchBox.value);
+    event.preventDefault();
+    apiRequest(searchBox.value, function(data) {
+      article.textContent = data;
+    });
   }
 });
 
-submitBtn.addEventListener('click', () => {
-  apiRequest(searchBox.value);
+submitBtn.addEventListener('click', function() {
+  apiRequest(searchBox.value, function(data) {
+    article.textContent = data;
+  });
 });
