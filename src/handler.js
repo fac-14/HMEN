@@ -10,7 +10,7 @@ const config = {
 };
 
 let headline;
-let summary;
+let summary = '';
 let otherHeadlines = [];
 let article;
 let gif;
@@ -37,11 +37,7 @@ function apiRequest(req, res, url) {
     } else {
       const content = parsedData.response.docs;
       headline = content[0].headline.main;
-      if (content[0].abstract) {
-        summary = content[0].abstract;
-      } else {
-        summary = content[0].snippet;
-      }
+      summary = content[0].abstract;
       otherHeadlines = [content[1].headline.main, content[2].headline.main, content[3].headline.main, content[4].headline.main];
       pubDate = content[0].pub_date.split('T')[0];
     }
