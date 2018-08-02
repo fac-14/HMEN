@@ -4,9 +4,17 @@ const request = require('request');
 require('dotenv').config();
 
 const config = {
-  'GUARDIAN_KEY': process.env.GUARDIAN_KEY,
-  'NYT_KEY': process.env.NYT_KEY,
+  GUARDIAN_KEY: process.env.GUARDIAN_KEY,
+  NYT_KEY: process.env.NYT_KEY,
+  GIPHY_KEY : process.env.GIPHY_KEY,
 };
+
+let headline;
+let summary;
+let otherHeadlines = [];
+let article;
+let gif;
+let pubDate;
 
 function pubicPath(fileName) {
   return path.join(__dirname, '..', 'public', fileName);
@@ -20,17 +28,38 @@ function returnError(error, res) {
 function apiRequest(req, res, url) {
   request(url, (error, response, body) => {
     console.log('Error: ', error);
-    // console.log('statusCode: ', response && response.statusCode);
     const parsedData = JSON.parse(body);
-    // console.log('Body: ', parsedData.response.results[0].fields.bodyText);
-    console.log(parsedData.response.docs[0].multimedia[0].url);
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end(JSON.stringify(parsedData.response.results[0].fields.bodyText));
+    // console.log('parsed data: ', parsedData);
+    if (url.indexOf('guardian') !== -1) {
+      article = parsedData.response.results[0].fields.bodyText;
+    } else if (url.indexOf('giphy') !== -1) {
+      gif = parsedData.data.images.downsized_medium.url;
+    } else {
+      const content = parsedData.response.docs;
+      headline = content[0].headline.main;
+      if (content[0].abstract) {
+        summary = content[0].abstract;
+      } else {
+        summary = content[0].snippet;
+      }
+      otherHeadlines = [content[1].headline.main, content[2].headline.main, content[3].headline.main, content[4].headline.main];
+      pubDate = content[0].pub_date.split('T')[0];
+    }
   });
 }
-//---------------HANDLERS
+
+const makeRequests = (req, res, guardianUrl, nytUrl, giphyUrl, callback) => {
+  apiRequest(req, res, nytUrl);
+  apiRequest(req, res, guardianUrl);
+  apiRequest(req, res, giphyUrl);
+  setTimeout(() => {
+    callback();
+  }, 2000);
+};
+
+// ---------------HANDLERS
 const handlers = {
-//---------------TO LOAD HTML IN BROWSER
+// ---------------TO LOAD HTML IN BROWSER
   indexHandler: (req, res) => {
     fs.readFile(pubicPath('index.html'),
       (error, file) => {
@@ -42,7 +71,7 @@ const handlers = {
         }
       });
   },
-// ---------------TO LOAD CSS AND SCRIPTS IN THE BROWSER
+  // ---------------TO LOAD CSS AND SCRIPTS IN THE BROWSER
   pubicHandler: (req, res) => {
     const extensionType = {
       html: 'text/html',
@@ -64,18 +93,28 @@ const handlers = {
         }
       });
   },
-// ------------------TO HANDLE CLIENT REQUEST
+  // ------------------TO HANDLE CLIENT REQUEST
   queryHandler: (req, res) => {
-
-// ------------------URL CONSTRUCTOR
+    // ------------------URL CONSTRUCTOR
     const query = req.url.split('?q=')[1].split('&')[0];
     const guardianUrl = `https://content.guardianapis.com/search?q=${query}&show-fields=bodyText&api-key=${config.GUARDIAN_KEY}`;
-    const nytUrl = `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${query}&api-key=${config.NYT_KEY}`;
+    const nytUrl = `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${query}&begin_date=18510101&end_date=19000101&fl=abstract&fl=headline&fl=snippet&fl=pub_date&api-key=${config.NYT_KEY}`;
+    const giphyUrl = `https://api.giphy.com/v1/gifs/random?tag=${query}&api_key=${config.GIPHY_KEY}`
 
-    // apiRequest(req, guardianUrl);
-    apiRequest(req, res, nytUrl);
-    // console.log(res);
-    apiRequest(req, res, guardianUrl);
+    makeRequests(req, res, guardianUrl, nytUrl, giphyUrl, () => {
+      const response = {
+        'headline': headline,
+        'summary': summary,
+        'other_headlines': otherHeadlines,
+        'article': article,
+        'pub_date': pubDate,
+        'gif': gif
+      };
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      console.log('response object: ', response);
+      // console.log('stringified response object: ', JSON.stringify(response));
+      res.end(JSON.stringify(response));
+    });
   },
 };
 
