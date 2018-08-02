@@ -63,10 +63,10 @@ const handlers = {
         }
       });
   },
-//------------------TO HANDLE CLIENT REQUEST
+// ------------------TO HANDLE CLIENT REQUEST
   queryHandler: (req, res) => {
-    
-//------------------URL CONSTRUCTOR
+
+// ------------------URL CONSTRUCTOR
     const query = req.url.split('?q=')[1].split('&')[0];
     const guardianUrl = `https://content.guardianapis.com/search?q=${query}&show-fields=bodyText&api-key=${config.GUARDIAN_KEY}`;
     const nytUrl = `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${query}&api-key=${config.NYT_KEY}`;
@@ -77,5 +77,15 @@ const handlers = {
     apiRequest(req, res, guardianUrl);
   },
 };
+
+// ---- API CALL PLAN
+// 1. Make request in apiRequest to each of the APIs
+  // 1a. return .json object and parse it
+// 2. Make another function to catch the two responses
+  // 2a. Extract the info we want from the response
+  // 2b. Use the global parseObject and assign the desired info to it
+  // 2b. Return a new object with the desired info
+// 3. Make a final callback
+  // 3a. Stringify the new object and send it over to the client side
 
 module.exports = handlers;
