@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const request = require('request');
+
 const config = {
-  GUARDIAN_KEY: "7de6cbf7-40ff-4edd-9fe6-4d9b1b20a26b",
-  NYT_KEY: "401b373f944f41afa50d7c8294713694",
+  GUARDIAN_KEY: '7de6cbf7-40ff-4edd-9fe6-4d9b1b20a26b',
+  NYT_KEY: '401b373f944f41afa50d7c8294713694',
 };
 
 function pubicPath(fileName) {
@@ -13,6 +14,15 @@ function pubicPath(fileName) {
 function returnError(error, res) {
   res.writeHead(500, { 'Content-Type': 'text/html' });
   res.end('You\'ve fucked up');
+}
+
+function apiRequest(req, url) {
+  request(url, (error, response, body) => {
+    console.log('Error: ', error);
+    console.log('statusCode: ', response && response.statusCode);
+    const parsedData = JSON.parse(body);
+    console.log('Body: ', parsedData.response.results[0].fields.bodyText);
+  });
 }
 
 const handlers = {
@@ -53,16 +63,8 @@ const handlers = {
     const guardianUrl = `https://content.guardianapis.com/search?q=${query}&show-fields=bodyText&api-key=${config.GUARDIAN_KEY}`;
     // make nyt url
     apiRequest(req, guardianUrl);
+    console.log(res);
   },
 };
-
-function apiRequest(req, url) {
-  request(url, (error, response, body) => {
-    console.log('Error: ', error);
-    console.log('statusCode: ', response && response.statusCode);
-    const parsedData = JSON.parse(body);
-    console.log("Body: ", parsedData.response.results[0].fields.bodyText);
-  });
-}
 
 module.exports = handlers;
