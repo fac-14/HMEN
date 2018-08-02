@@ -6,6 +6,7 @@ require('dotenv').config();
 const config = {
   GUARDIAN_KEY: process.env.GUARDIAN_KEY,
   NYT_KEY: process.env.NYT_KEY,
+  GIPHY_KEY : process.env.GIPHY_KEY,
 };
 
 let headline;
@@ -31,6 +32,8 @@ function apiRequest(req, res, url) {
     // console.log('parsed data: ', parsedData);
     if (url.indexOf('guardian') !== -1) {
       article = parsedData.response.results[0].fields.bodyText;
+    } else if (url.indexOf('giphy') !== -1) {
+      gif = parsedData.data.images.downsized_medium.url;
     } else {
       const content = parsedData.response.docs;
       headline = content[0].headline.main;
@@ -45,9 +48,10 @@ function apiRequest(req, res, url) {
   });
 }
 
-const makeRequests = (req, res, guardianUrl, nytUrl, callback) => {
+const makeRequests = (req, res, guardianUrl, nytUrl, giphyUrl, callback) => {
   apiRequest(req, res, nytUrl);
   apiRequest(req, res, guardianUrl);
+  apiRequest(req, res, giphyUrl);
   setTimeout(() => {
     callback();
   }, 2000);
@@ -95,14 +99,16 @@ const handlers = {
     const query = req.url.split('?q=')[1].split('&')[0];
     const guardianUrl = `https://content.guardianapis.com/search?q=${query}&show-fields=bodyText&api-key=${config.GUARDIAN_KEY}`;
     const nytUrl = `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${query}&begin_date=18510101&end_date=19000101&fl=abstract&fl=headline&fl=snippet&fl=pub_date&api-key=${config.NYT_KEY}`;
+    const giphyUrl = `https://api.giphy.com/v1/gifs/random?tag=${query}&api_key=${config.GIPHY_KEY}`
 
-    makeRequests(req, res, guardianUrl, nytUrl, () => {
+    makeRequests(req, res, guardianUrl, nytUrl, giphyUrl, () => {
       const response = {
         'headline': headline,
         'summary': summary,
         'other_headlines': otherHeadlines,
         'article': article,
         'pub_date': pubDate,
+        'gif': gif
       };
       res.writeHead(200, { 'Content-Type': 'text/html' });
       console.log('response object: ', response);
