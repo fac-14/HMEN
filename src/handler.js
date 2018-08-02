@@ -13,6 +13,7 @@ let summary;
 let otherHeadlines = [];
 let article;
 let gif;
+let pubDate;
 
 function pubicPath(fileName) {
   return path.join(__dirname, '..', 'public', fileName);
@@ -33,8 +34,13 @@ function apiRequest(req, res, url) {
     } else {
       const content = parsedData.response.docs;
       headline = content[0].headline.main;
-      summary = content[0].abstract;
+      if (content[0].abstract) {
+        summary = content[0].abstract;
+      } else {
+        summary = content[0].snippet;
+      }
       otherHeadlines = [content[1].headline.main, content[2].headline.main, content[3].headline.main, content[4].headline.main];
+      pubDate = content[0].pub_date.split('T')[0];
     }
   });
 }
@@ -43,7 +49,7 @@ const makeRequests = (req, res, guardianUrl, nytUrl, callback) => {
   apiRequest(req, res, nytUrl);
   apiRequest(req, res, guardianUrl);
   setTimeout(() => {
-    callback(guardianData, nytData);
+    callback();
   }, 2000);
 };
 
@@ -88,16 +94,19 @@ const handlers = {
     // ------------------URL CONSTRUCTOR
     const query = req.url.split('?q=')[1].split('&')[0];
     const guardianUrl = `https://content.guardianapis.com/search?q=${query}&show-fields=bodyText&api-key=${config.GUARDIAN_KEY}`;
-    const nytUrl = `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${query}&api-key=${config.NYT_KEY}`;
+    const nytUrl = `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${query}&begin_date=18510101&end_date=19000101&fl=abstract&fl=headline&fl=snippet&fl=pub_date&api-key=${config.NYT_KEY}`;
 
     makeRequests(req, res, guardianUrl, nytUrl, () => {
       const response = {
-        'guardian-data': guardianData,
-        'nyt-data': nytData,
+        'headline': headline,
+        'summary': summary,
+        'other_headlines': otherHeadlines,
+        'article': article,
+        'pub_date': pubDate,
       };
       res.writeHead(200, { 'Content-Type': 'text/html' });
       console.log('response object: ', response);
-      console.log('stringified response object: ', JSON.stringify(response));
+      // console.log('stringified response object: ', JSON.stringify(response));
       res.end(JSON.stringify(response));
     });
   },
