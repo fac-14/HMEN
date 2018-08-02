@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "test": "node ./src/logic.test.js | tap-spec",
-    "test-script": "node script.test.js | tap-spec"
+    "script": "node ./public/script.test.js | tap-spec",
+    "start": "nodemon ./src/server.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,9 @@
     "url": "https://github.com/fac-14/HMEN/issues"
   },
   "homepage": "https://github.com/fac-14/HMEN#readme",
+  "dependencies": {
+    "request": "^2.87.0"
+  },
   "devDependencies": {
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
