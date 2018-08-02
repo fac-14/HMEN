@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/fac-14/HMEN#readme",
   "dependencies": {
+    "dotenv": "^6.0.0",
     "request": "^2.87.0"
   },
   "devDependencies": {

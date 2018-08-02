@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const request = require('request');
+require('dotenv').config();
 
 const config = {
-  GUARDIAN_KEY: '7de6cbf7-40ff-4edd-9fe6-4d9b1b20a26b',
-  NYT_KEY: '401b373f944f41afa50d7c8294713694',
+  'GUARDIAN_KEY': process.env.GUARDIAN_KEY,
+  'NYT_KEY': process.env.NYT_KEY,
 };
 
 function pubicPath(fileName) {
