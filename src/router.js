@@ -7,6 +7,7 @@ const router = (req, res) => {
   } else if (req.url.indexOf('/public/') !== -1) {
     handlers.pubicHandler(req, res);
   } else if (reqUrl.indexOf('/?q=') !== -1) {
+    console.log(reqUrl);
     handlers.queryHandler(req, res);
   }
 };
