@@ -15,17 +15,19 @@ function returnError(error, res) {
   res.writeHead(500, { 'Content-Type': 'text/html' });
   res.end('You\'ve fucked up');
 }
-
+//---------------API REQUEST
 function apiRequest(req, url) {
   request(url, (error, response, body) => {
     console.log('Error: ', error);
-    console.log('statusCode: ', response && response.statusCode);
+    // console.log('statusCode: ', response && response.statusCode);
     const parsedData = JSON.parse(body);
-    console.log('Body: ', parsedData.response.results[0].fields.bodyText);
+    // console.log('Body: ', parsedData.response.results[0].fields.bodyText);
+    console.log(parsedData.response.docs[0].multimedia[0].url);
   });
 }
-
+//---------------HANDLERS
 const handlers = {
+//---------------TO LOAD HTML IN BROWSER
   indexHandler: (req, res) => {
     fs.readFile(pubicPath('index.html'),
       (error, file) => {
@@ -37,6 +39,7 @@ const handlers = {
         }
       });
   },
+// ---------------TO LOAD CSS AND SCRIPTS IN THE BROWSER
   pubicHandler: (req, res) => {
     const extensionType = {
       html: 'text/html',
@@ -58,12 +61,17 @@ const handlers = {
         }
       });
   },
+//------------------TO HANDLE CLIENT REQUEST
   queryHandler: (req, res) => {
+    
+//------------------URL CONSTRUCTOR
     const query = req.url.split('?q=')[1].split('&')[0];
     const guardianUrl = `https://content.guardianapis.com/search?q=${query}&show-fields=bodyText&api-key=${config.GUARDIAN_KEY}`;
-    // make nyt url
-    apiRequest(req, guardianUrl);
-    console.log(res);
+    const nytUrl = `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${query}&api-key=${config.NYT_KEY}`;
+
+    // apiRequest(req, guardianUrl);
+    apiRequest(req,nytUrl);
+    // console.log(res);
   },
 };
 
