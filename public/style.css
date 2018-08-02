@@ -1,3 +1,4 @@
+
 .visuallyhidden {
     position: absolute;
     overflow: hidden;
@@ -7,9 +8,9 @@
   }
 
   body {
-    background-color: hotpink;
+    background-color: #e8e8e8;
     margin: 0;
-    box-sizing: border-box;
+    font-family: "Neuton", serif;
   }
 
   #news-container {
@@ -17,19 +18,45 @@
     width: 100vw;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4);
-    border-style: solid;
+  }
+
+  #news-container h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin: 16px 0;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin: 8px;
+    font-size: 2rem;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    margin: 8px;
+    font-size: 1.5rem;
+    text-transform: uppercase;
   }
 
   .headers {
     text-align: center;
   }
   .grid-element {
-    border-style: solid;
+  }
+
+  #article {
+    text-align: justify;
+    padding: 0 16px;
   }
 
   #content {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 2fr;
     grid-template-rows: 1fr;
+  }
 
+  #content img {
+    justify-self: center;
+    width: 60vw;
   }
