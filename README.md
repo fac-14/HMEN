@@ -1,10 +1,12 @@
 # :zap:HMEN:zap:
 
-:balloon: You been invited to try out **The New York Guardian**, a trusted news outlet specialising in the early century. 
-(If you're lucky it might even load! :kissing_heart:)
+:balloon: You been invited to try out **The New York Guardian**, a trusted news outlet specialising in the early century. :balloon: 
+  
+(If you're lucky it might even load some content! :kissing_heart:)
 
 ## News from the early century? 
-YAH! Why not!? [Just have a taste, ok](https://floating-mountain-51197.herokuapp.com/). 
+YAH! Why not!? :tada:
+[Just have a taste, ok](https://floating-mountain-51197.herokuapp.com/). 
 
 ---
 
