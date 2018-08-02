@@ -44,7 +44,13 @@ const handlers = {
         }
       });
   },
-  // queryHandler: (req, res) => res + req,
+  queryHandler: (req, res) => {
+    const query = req.url.split('?q=')[1].split('&')[0];
+    const guardianUrl = `https://content.guardianapis.com/search?q=${query}&show-fields=bodyText&api-key=${config.GUARDIAN_KEY}`;
+    // make nyt url
+    apiRequest(req, guardianUrl);
+    console.log(res);
+  },
 };
 
 module.exports = handlers;
