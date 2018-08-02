@@ -79,9 +79,13 @@ const handlers = {
 };
 
 // ---- API CALL PLAN
-// 1. Make request in one function to each of the APIs
-// 2. Make another function to catch the two responses and wait for both to come in
-  // 2b. extract in info we want
-// 3. Make a final callback assign the extracted data to the object that is sent over to client side
+// 1. Make request in apiRequest to each of the APIs
+  // 1a. return .json object and parse it
+// 2. Make another function to catch the two responses
+  // 2a. Extract the info we want from the response
+  // 2b. Use the global parseObject and assign the desired info to it
+  // 2b. Return a new object with the desired info
+// 3. Make a final callback
+  // 3a. Stringify the new object and send it over to the client side
 
 module.exports = handlers;
