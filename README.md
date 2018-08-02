@@ -1,13 +1,14 @@
 # :zap:HMEN:zap:
 
-## Come one, come all!! 
-You been invited to try out **The New York Guardian**, a trusted news outlet specialising in the early century. 
+:balloon: You been invited to try out **The New York Guardian**, a trusted news outlet specialising in the early century. 
 (If you're lucky it might even load! :kissing_heart:)
 
 ## News from the early century? 
 YAH! Why not!? [Just have a taste, ok](https://floating-mountain-51197.herokuapp.com/). 
 
-### :heart: from the dream team: 
+---
+
+:heart: from the dream team: 
 
 ### Eve 
 ![Alt Text](https://media.giphy.com/media/l0IylOPCNkiqOgMyA/giphy.gif)
