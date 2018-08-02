@@ -15,9 +15,11 @@ searchBox.addEventListener('keypress', function(event) {
       var nytContainer = document.createElement('p');
       var nytArticle = document.createTextNode(data['nyt-data']);
       nytContainer.appendChild(nytArticle);
+      while (article.firstChild) {
+        article.removeChild(article.childNodes[0]);
+      }
       article.appendChild(guardianContainer);
       article.insertBefore(nytContainer, article.childNodes[0]);
-      // article.textContent = data['guardianData'];
     });
   }
 });
