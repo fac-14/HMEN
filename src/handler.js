@@ -1,12 +1,28 @@
 const fs = require('fs');
 const path = require('path');
+const request = require('request');
+
+const config = {
+  GUARDIAN_KEY: '7de6cbf7-40ff-4edd-9fe6-4d9b1b20a26b',
+  NYT_KEY: '401b373f944f41afa50d7c8294713694',
+};
 
 function pubicPath(fileName) {
   return path.join(__dirname, '..', 'public', fileName);
 }
+
 function returnError(error, res) {
   res.writeHead(500, { 'Content-Type': 'text/html' });
   res.end('You\'ve fucked up');
+}
+
+function apiRequest(req, url) {
+  request(url, (error, response, body) => {
+    console.log('Error: ', error);
+    console.log('statusCode: ', response && response.statusCode);
+    const parsedData = JSON.parse(body);
+    console.log('Body: ', parsedData.response.results[0].fields.bodyText);
+  });
 }
 
 const handlers = {
@@ -22,7 +38,6 @@ const handlers = {
       });
   },
   pubicHandler: (req, res) => {
-    console.log(req.url);
     const extensionType = {
       html: 'text/html',
       css: 'text/css',
@@ -33,7 +48,6 @@ const handlers = {
       png: 'image/png',
     };
     const ext = req.url.split('.')[1];
-    console.log(path.join(__dirname, '..', req.url));
     fs.readFile(path.join(__dirname, '..', req.url),
       (error, file) => {
         if (error) {
