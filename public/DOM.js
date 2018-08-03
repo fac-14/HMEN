@@ -28,6 +28,7 @@ submitBtn.addEventListener('click', function(event) {
           article.textContent = source.Guardian.article;
         } else if (source.Giphy) {
           gif.setAttribute("src", source.Giphy.gif);
+          gif.setAttribute("alt", source.Giphy.gifDescription);
         }
     })
   });

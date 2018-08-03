@@ -9,8 +9,11 @@
 </head>
 <body>
     <header>
-        <h1>Compare those news!</h1>
+        <h4>Checkout those news!</h4>
     </header>
+    <main id="wrapper">
+      <form id="search">
+        <label for="input" class="visuallyhidden">Enter keywords here</label>
     <section id="wrapper">
     <form id="search">
         <label for="input" class="visually-hidden">Enter keywords here</label>
@@ -18,6 +21,16 @@
         <label for="submit" class="visually-hidden">Get news</label>
         <button type="submit" name="submit" value="Get news" id="submit">Submit</button>
       </form>
+      <section id="news-container">
+        <h1 id="newspaper-name" class="headers">The New York Guardian</h1>
+        <h2 id="headline" class="headers"></h2>
+        <h3 id="abstract" class="headers"></h3>
+        <article id="content">
+          <div id="article"></div>
+          <img id="gif" src=''>
+        </article>
+      </section>
+    </main>
       <div id="news-container">
         <h1 id="newspaper-name" class="grid-element headers">The New York Guardian</h1>
         <h2 id="headline" class="grid-element headers"></h2>

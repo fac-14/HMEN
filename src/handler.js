@@ -31,7 +31,7 @@ function apiRequest(req, res, url, callback) {
       article = { Guardian: { article: parsedData.response.results[1].fields.bodyText } };
       responseArr.push(article);
     } else if (url.indexOf('giphy') !== -1) {
-      gif = { Giphy: { gif: parsedData.data[0].images.downsized_medium.url } };
+      gif = { Giphy: { gif: parsedData.data[0].images.downsized_medium.url, gifDescription: parsedData.data[0].title } };
       responseArr.push(gif);
     } else {
       const content = parsedData.response.docs;
