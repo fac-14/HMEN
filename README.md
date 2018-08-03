@@ -8,7 +8,7 @@
 YAH! Why not!? :tada:
 ~~[Just have a taste, ok](https://floating-mountain-51197.herokuapp.com/).~~ 
 
-So sorry, guys, Heroku is upset and needs some time alone. You'll have to clone the repo and change the `url` at the top of `handler.js` to `//localhost:4000`
+So sorry, guys, Heroku is upset and needs some time alone. You'll have to clone the repo and change the `url` at the top of `script.js` to `//localhost:4000`
 
 ---
 
