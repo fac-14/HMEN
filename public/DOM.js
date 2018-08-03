@@ -12,16 +12,33 @@ searchBox.addEventListener('keypress', function(event) {
   if (key === 13) {
     event.preventDefault();
     apiRequest(searchBox.value, function(data) {
-      headline.textContent = data.headline;
-      abstract.textContent = data.summary;
-      article.textContent = data.article;
-      gif.setAttribute("src", data.gif);
+      console.log(data);
+      data.forEach(function(source) {
+          if (source.nyt) {
+            headline.textContent = source.nyt.headline;
+            abstract.textContent = source.nyt.summary;
+          } else if (source.Guardian) {
+            article.textContent = source.Guardian.article;
+          } else if (source.Giphy) {
+            gif.setAttribute("src", source.Giphy.gif);
+          }
+      })
     });
   }
 });
 
 submitBtn.addEventListener('click', function() {
   apiRequest(searchBox.value, function(data) {
-    article.textContent = data['guardian-data'];
+    console.log(data);
+    data.forEach(function(source) {
+        if (source.nyt) {
+          headline.textContent = source.nyt.headline;
+          abstract.textContent = source.nyt.summary;
+        } else if (source.Guardian) {
+          article.textContent = source.Guardian.article;
+        } else if (source.Giphy) {
+          gif.setAttribute("src", source.Giphy.gif);
+        }
+    })
   });
 });
