@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://fonts.googleapis.com/css?family=Neuton:400,800" rel="stylesheet">
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Guardian vs New York Times</title>
@@ -14,18 +13,19 @@
     </header>
     <section id="wrapper">
     <form id="search">
-        <label for="input" class="visuallyhidden">Enter keywords here</label>
+        <label for="input" class="visually-hidden">Enter keywords here</label>
         <input type="text" name="description" value="" placeholder="Enter keywords here" id="keyword-input" required>
-        <label for="submit" class="visuallyhidden">Get news</label>
-        <input type="button" name="submit" value="Get news" id="submit">
+        <label for="submit" class="visually-hidden">Get news</label>
+        <button type="submit" name="submit" value="Get news" id="submit">Submit</button>
       </form>
       <div id="news-container">
         <h1 id="newspaper-name" class="grid-element headers">The New York Guardian</h1>
         <h2 id="headline" class="grid-element headers"></h2>
-        <h3 id="abstract" class="grid-element headers"></h3>
+        <p id="abstract" class="grid-element headers"></p>
         <div id="content" class="grid-element">
           <div id="article" class="grid-element"></div>
-          <img id="gif" class="grid-element" src=''>
+          <img id="gif" class="grid-element"></img>
+          <div id="related-headlines" class="grid-element"></div>
         </div>
       </div>
       </div>
