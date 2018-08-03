@@ -20,11 +20,15 @@ var gif = document.getElementById('gif');
 submitBtn.addEventListener('click', function(event) {
   event.preventDefault();
   apiRequest(searchBox.value, function(data) {
-    headline.textContent = data.headline;
-    abstract.textContent = data.summary;
-    article.textContent = data.article;
-    gif.setAttribute("src", data.gif);
-    console.log(data.gif);
-
+    data.forEach(function(source) {
+        if (source.nyt) {
+          headline.textContent = source.nyt.headline;
+          abstract.textContent = source.nyt.summary;
+        } else if (source.Guardian) {
+          article.textContent = source.Guardian.article;
+        } else if (source.Giphy) {
+          gif.setAttribute("src", source.Giphy.gif);
+        }
+    })
   });
 });
