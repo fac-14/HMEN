@@ -10,26 +10,25 @@
 </head>
 <body>
     <header>
-        <h1>Compare those news!</h1>
+        <h4>Checkout those news!</h4>
     </header>
-    <section id="wrapper">
-    <form id="search">
+    <main id="wrapper">
+      <form id="search">
         <label for="input" class="visuallyhidden">Enter keywords here</label>
         <input type="text" name="description" value="" placeholder="Enter keywords here" id="keyword-input" required>
         <label for="submit" class="visuallyhidden">Get news</label>
         <input type="button" name="submit" value="Get news" id="submit">
       </form>
-      <div id="news-container">
-        <h1 id="newspaper-name" class="grid-element headers">The New York Guardian</h1>
-        <h2 id="headline" class="grid-element headers"></h2>
-        <h3 id="abstract" class="grid-element headers"></h3>
-        <div id="content" class="grid-element">
-          <div id="article" class="grid-element"></div>
-          <img id="gif" class="grid-element" src=''>
-        </div>
-      </div>
-      </div>
-    </section>
+      <section id="news-container">
+        <h1 id="newspaper-name" class="headers">The New York Guardian</h1>
+        <h2 id="headline" class="headers"></h2>
+        <h3 id="abstract" class="headers"></h3>
+        <article id="content">
+          <div id="article"></div>
+          <img id="gif" src=''>
+        </article>
+      </section>
+    </main>
 </body>
 <script src="./public/DOM.js"></script>
 <script src="./public/script.js"></script>

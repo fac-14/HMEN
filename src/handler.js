@@ -10,10 +10,11 @@ const config = {
 };
 
 let headline;
-let summary = '';
+let summary;
 let article;
 let gif;
 let pubDate;
+let gifDescription;
 
 function pubicPath(fileName) {
   return path.join(__dirname, '..', 'public', fileName);
@@ -32,12 +33,13 @@ function apiRequest(req, res, url) {
       article = parsedData.response.results[1].fields.bodyText;
     } else if (url.indexOf('giphy') !== -1) {
       gif = parsedData.data[0].images.downsized_medium.url;
+      gifDescription = parsedData.data[0].title;
     } else {
       const content = parsedData.response.docs;
       headline = content[1].headline.main;
-      summary = content[1].abstract;
+      summary = content[0].snippet;
+      }
       // pubDate = content[0].pub_date.split('T')[0];
-    }
   });
 }
 
@@ -101,9 +103,10 @@ const handlers = {
         article,
         pub_date: pubDate,
         gif,
+        gifDescription,
       };
       res.writeHead(200, { 'Content-Type': 'text/html' });
-      console.log('response object: ', response);
+      // console.log('response object: ', response);
       res.end(JSON.stringify(response));
     });
   },

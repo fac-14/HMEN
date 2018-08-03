@@ -16,6 +16,7 @@ searchBox.addEventListener('keypress', function(event) {
       abstract.textContent = data.summary;
       article.textContent = data.article;
       gif.setAttribute("src", data.gif);
+      gif.setAttribute("alt", data.gifDescription);
     });
   }
 });
