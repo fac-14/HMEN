@@ -7,29 +7,19 @@ var abstract = document.getElementById('abstract');
 var article = document.getElementById('article');
 var gif = document.getElementById('gif');
 
-searchBox.addEventListener('keypress', function(event) {
-  var key = event.which || event.keyCode;
-  if (key === 13) {
-    event.preventDefault();
-    apiRequest(searchBox.value, function(data) {
-      console.log(data);
-      data.forEach(function(source) {
-          if (source.nyt) {
-            headline.textContent = source.nyt.headline;
-            abstract.textContent = source.nyt.summary;
-          } else if (source.Guardian) {
-            article.textContent = source.Guardian.article;
-          } else if (source.Giphy) {
-            gif.setAttribute("src", source.Giphy.gif);
-          }
-      })
-    });
-  }
-});
+// searchBox.addEventListener('keypress', function(event) {
+//   var key = event.which || event.keyCode;
+//   if (key === 13) {
+//     event.preventDefault();
+//     apiRequest(searchBox.value, function(data) {
+//
+//     });
+//   }
+// });
 
-submitBtn.addEventListener('click', function() {
+submitBtn.addEventListener('click', function(event) {
+  event.preventDefault();
   apiRequest(searchBox.value, function(data) {
-    console.log(data);
     data.forEach(function(source) {
         if (source.nyt) {
           headline.textContent = source.nyt.headline;
