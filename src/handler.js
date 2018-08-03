@@ -25,23 +25,18 @@ function returnError(error, res) {
 
 function apiRequest(req, res, url, callback) {
   request(url, (error, response, body) => {
-    console.log('Error: ', error);
+    // console.log('Error: ', error);
     const parsedData = JSON.parse(body);
     if (url.indexOf('guardian') !== -1) {
-      // article = parsedData.response.results[1].fields.bodyText;
       article = { Guardian: { article: parsedData.response.results[1].fields.bodyText } };
       responseArr.push(article);
     } else if (url.indexOf('giphy') !== -1) {
-      // gif = parsedData.data[0].images.downsized_medium.url;
       gif = { Giphy: { gif: parsedData.data[0].images.downsized_medium.url } };
       responseArr.push(gif);
     } else {
       const content = parsedData.response.docs;
       nyt = { nyt: { headline: content[1].headline.main, summary: content[1].abstract } };
       responseArr.push(nyt);
-      // headline = content[1].headline.main;
-      // summary = content[1].abstract;
-      // pubDate = content[0].pub_date.split('T')[0];
     }
     callback();
   });
@@ -98,13 +93,6 @@ const handlers = {
     const giphyUrl = `https://api.giphy.com/v1/gifs/search?q=${query}&api_key=${config.GIPHY_KEY}`;
 
     makeRequests(req, res, guardianUrl, nytUrl, giphyUrl, () => {
-      // const response = {
-      //   headline,
-      //   summary,
-      //   article,
-      //   pub_date: pubDate,
-      //   gif,
-      // };
       if (responseArr.length === 3) {
         console.log(responseArr);
         res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -113,15 +101,5 @@ const handlers = {
     });
   },
 };
-
-// ---- API CALL PLAN
-// 1. Make request in apiRequest to each of the APIs
-  // 1a. return .json object and parse it
-// 2. Make another function to catch the two responses
-  // 2a. Extract the info we want from the response
-  // 2b. Use the global parseObject and assign the desired info to it
-  // 2b. Return a new object with the desired info
-// 3. Make a final callback
-  // 3a. Stringify the new object and send it over to the client side
 
 module.exports = handlers;
