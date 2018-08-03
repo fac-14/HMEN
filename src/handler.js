@@ -91,7 +91,7 @@ const handlers = {
     // ------------------URL CONSTRUCTOR
     const query = req.url.split('?q=')[1].split('&')[0];
     const guardianUrl = `https://content.guardianapis.com/search?q=${query}&show-fields=bodyText&api-key=${config.GUARDIAN_KEY}`;
-    const nytUrl = `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${query}&begin_date=18510101&end_date=19000101&fl=abstract&fl=headline&fl=snippet&fl=pub_date&api-key=${config.NYT_KEY}`;
+    const nytUrl = `http://api.nytimes.com/svc/search/v2/articlesearch.json?q=${query}&begin_date=19000101&end_date=19200101&fl=abstract&fl=headline&fl=snippet&fl=pub_date&api-key=${config.NYT_KEY}`;
     const giphyUrl = `https://api.giphy.com/v1/gifs/search?q=${query}&api_key=${config.GIPHY_KEY}`;
 
     makeRequests(req, res, guardianUrl, nytUrl, giphyUrl, () => {
