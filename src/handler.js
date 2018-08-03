@@ -9,12 +9,10 @@ const config = {
   GIPHY_KEY: process.env.GIPHY_KEY,
 };
 
-let headline;
-let summary;
 let article;
 let gif;
-let pubDate;
-let gifDescription;
+let nyt;
+let responseArr = [];
 
 function pubicPath(fileName) {
   return path.join(__dirname, '..', 'public', fileName);
@@ -25,31 +23,29 @@ function returnError(error, res) {
   res.end('You\'ve fucked up');
 }
 
-function apiRequest(req, res, url) {
+function apiRequest(req, res, url, callback) {
   request(url, (error, response, body) => {
-    console.log('Error: ', error);
+    // console.log('Error: ', error);
     const parsedData = JSON.parse(body);
     if (url.indexOf('guardian') !== -1) {
-      article = parsedData.response.results[1].fields.bodyText;
+      article = { Guardian: { article: parsedData.response.results[1].fields.bodyText } };
+      responseArr.push(article);
     } else if (url.indexOf('giphy') !== -1) {
-      gif = parsedData.data[0].images.downsized_medium.url;
-      gifDescription = parsedData.data[0].title;
+      gif = { Giphy: { gif: parsedData.data[0].images.downsized_medium.url, gifDescription: parsedData.data[0].title } };
+      responseArr.push(gif);
     } else {
       const content = parsedData.response.docs;
-      headline = content[1].headline.main;
-      summary = content[0].snippet;
-      }
-      // pubDate = content[0].pub_date.split('T')[0];
+      nyt = { nyt: { headline: content[1].headline.main, summary: content[1].abstract } };
+      responseArr.push(nyt);
+    }
+    callback();
   });
 }
 
 const makeRequests = (req, res, guardianUrl, nytUrl, giphyUrl, callback) => {
-  apiRequest(req, res, nytUrl);
-  apiRequest(req, res, guardianUrl);
-  apiRequest(req, res, giphyUrl);
-  setTimeout(() => {
-    callback();
-  }, 2000);
+  apiRequest(req, res, nytUrl, callback);
+  apiRequest(req, res, guardianUrl, callback);
+  apiRequest(req, res, giphyUrl, callback);
 };
 
 // ---------------HANDLERS
@@ -97,29 +93,13 @@ const handlers = {
     const giphyUrl = `https://api.giphy.com/v1/gifs/search?q=${query}&api_key=${config.GIPHY_KEY}`;
 
     makeRequests(req, res, guardianUrl, nytUrl, giphyUrl, () => {
-      const response = {
-        headline,
-        summary,
-        article,
-        pub_date: pubDate,
-        gif,
-        gifDescription,
-      };
-      res.writeHead(200, { 'Content-Type': 'text/html' });
-      // console.log('response object: ', response);
-      res.end(JSON.stringify(response));
+      if (responseArr.length === 3) {
+        console.log(responseArr);
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(JSON.stringify(responseArr));
+      }
     });
   },
 };
-
-// ---- API CALL PLAN
-// 1. Make request in apiRequest to each of the APIs
-  // 1a. return .json object and parse it
-// 2. Make another function to catch the two responses
-  // 2a. Extract the info we want from the response
-  // 2b. Use the global parseObject and assign the desired info to it
-  // 2b. Return a new object with the desired info
-// 3. Make a final callback
-  // 3a. Stringify the new object and send it over to the client side
 
 module.exports = handlers;
